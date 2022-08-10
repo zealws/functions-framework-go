@@ -102,14 +102,15 @@ func RegisterCloudEventFunctionContext(ctx context.Context, path string, fn func
 
 // Start serves an HTTP server with registered function(s).
 func Start(port string) error {
-	server, err := initServer()
+	server, err := InitServer()
 	if err != nil {
 		return err
 	}
 	return http.ListenAndServe(":"+port, server)
 }
 
-func initServer() (*http.ServeMux, error) {
+// InitServer constructs an HTTP ServeMux that serves the configured function target.
+func InitServer() (*http.ServeMux, error) {
 	server := http.NewServeMux()
 
 	// If FUNCTION_TARGET is set, only serve this target function at path "/".
